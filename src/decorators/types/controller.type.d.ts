@@ -1,3 +1,5 @@
+import { ClassConstructor } from "class-transformer";
+
 export type ControllerType = string | ControllerOption;
 
 type ControllerOption = {

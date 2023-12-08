@@ -17,6 +17,8 @@ export const RegisterRoutes = <T = any>(app: Application) => {
       target
     );
 
+    console.log(routeController);
+
     const pathController = getPathController(routeController);
 
     routes.forEach((route: RouteTypes) => {
