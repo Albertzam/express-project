@@ -1,5 +1,5 @@
 import { ClassConstructor } from "class-transformer";
-import { MetadataKeysApplication } from "./common/main.keys";
+import { MetadataKeysApplication } from "./common/metadataApplication.keys";
 
 export const Catch = () => {
   return (target: ClassConstructor<unknown>) => {

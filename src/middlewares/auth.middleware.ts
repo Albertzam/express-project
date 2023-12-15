@@ -4,7 +4,7 @@ import { IMiddlewareExpress } from "../express/common/middlewares.express";
 
 @Middleware()
 export class AuthMiddleware implements IMiddlewareExpress {
-  use(req: Request, res: Response, next: NextFunction): void {
+  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
     console.log("entry middleware");
 
     next();

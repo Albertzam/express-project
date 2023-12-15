@@ -1,29 +1,14 @@
 import { ClassConstructor } from "class-transformer";
-import { MetadataKeysParameters } from "../decorators/common";
+import { MetadataKeysParameters } from "../../../decorators/common";
 import { Request } from "express";
+import { IArgsRequest } from "../../common";
 
 export const getDecoratorsRequest = (
   controller: ClassConstructor<unknown>,
   handler: string,
   req: Request
-): {
-  detail: Array<{
-    paramIndex: number;
-    paramName: string;
-    paramType: ClassConstructor<unknown>;
-    data?: unknown;
-  }>;
-  minimal: Array<unknown>;
-} => {
-  let args: {
-    detail: Array<{
-      paramIndex: number;
-      paramName: string;
-      paramType: ClassConstructor<unknown>;
-      data?: unknown;
-    }>;
-    minimal: Array<unknown>;
-  } = { detail: [], minimal: [] };
+): IArgsRequest => {
+  const args: IArgsRequest = { detail: [], minimal: [] };
 
   const body = Reflect.getMetadata(
     MetadataKeysParameters.BODY,
@@ -57,11 +42,6 @@ export const getDecoratorsRequest = (
     args.minimal[query.paramIndex] = req.query;
     args.detail.push({ ...query, data: req.query });
   }
-  return args;
-};
 
-const requestTypeData = {
-  BODY: "body",
-  PARAMS: "params",
-  QUERY: "query",
+  return args;
 };

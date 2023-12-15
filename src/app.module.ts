@@ -1,6 +1,12 @@
 import { HelloWorld } from "./controllers/helloWorld";
-import { HelloWorld2 } from "./controllers/helloWorld copy";
-import { GetAllControllers } from "./decorators/getAllRoutes";
+import { HelloWorld2 } from "./controllers/helloWorldCopy";
+import { Module } from "./decorators/getAllRoutes";
+import { ExampleService } from "./services/example.service";
+import { Service } from "./services/inject.service";
+import { ExampleSingleton } from "./services/single.service";
 
-@GetAllControllers({ controllers: [HelloWorld, HelloWorld2] })
+@Module({
+  controllers: [HelloWorld, HelloWorld2],
+  providers: [ExampleService, Service, ExampleSingleton],
+})
 export class GetControllers {}

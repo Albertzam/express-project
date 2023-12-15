@@ -1,4 +1,4 @@
-export * from "./metadata.keys";
-export * from "./parameters.keys";
-export * from "./methods.keys";
+export * from "./metadataRequest.keys";
+export * from "./metadataParametersHttp.keys";
+export * from "./metadataHttpMethods.keys";
 export * from "./auth.keys";

@@ -1,7 +1,8 @@
 import { ClassConstructor, plainToInstance } from "class-transformer";
 import { NextFunction, Request, Response } from "express";
-import { getDecoratorsRequest } from "./getArgsRequest";
+import { getDecoratorsRequest } from "../getArgsRequest";
 import { validate } from "class-validator";
+import { BadRequestException } from "../../../errors/badRequest";
 
 export const ValidationPipe = (
   controller: ClassConstructor<unknown>,
@@ -29,10 +30,7 @@ export const ValidationPipe = (
         );
       }
     }
-    if (errors.length > 0)
-      return res
-        .status(400)
-        .send({ message: errors, error: "Bad Request", status: 400 });
+    if (errors.length > 0) next(new BadRequestException(errors));
     next();
   };
 };

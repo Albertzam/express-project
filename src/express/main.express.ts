@@ -1,63 +1,36 @@
-import { ClassConstructor } from "class-transformer";
-import express, { Express } from "express";
-import { ConfigRoutes } from "./loadRoutes";
 import { IExpressConfig } from "./common";
+import { DependencyPrincipalSetup } from "./main";
+import { ContainerModule } from "./main/containerModule";
+import { ExpressService } from "./main/singleton/express.singleton";
+import { toCamelCase } from "../decorators/common/toCamelCase";
+import { MappingApplication } from "./main/mappingApplication";
+import { ClassConstructor } from "class-transformer";
 
 export class MainExpress implements IExpressConfig {
-  public version!: string;
-  private port!: number;
-  static express: Express;
-  static middlewares: Array<unknown>;
-  private getAllControllers: ClassConstructor<unknown>;
-  public prefix: string = "api";
+  private express: ExpressService;
+  private dependencyPrincipalService: DependencyPrincipalSetup;
+  private containerPrincipal: ContainerModule;
+  private mappingApplication: MappingApplication;
 
-  constructor(appModule: any) {
-    this.getAllControllers = appModule;
-  }
-
-  public create(): Express {
-    if (MainExpress.express) return MainExpress.express;
-    return (MainExpress.express = express());
-  }
-
-  loadRoutes(): void {
-    const routes = new ConfigRoutes(
-      this.getAllControllers,
-      MainExpress.express,
-      this.prefix
+  constructor(appModule: ClassConstructor<unknown>) {
+    this.dependencyPrincipalService = new DependencyPrincipalSetup();
+    this.dependencyPrincipalService.configurePrincipalDependencies();
+    this.containerPrincipal = new ContainerModule();
+    this.express = this.containerPrincipal.resolve<ExpressService>(
+      toCamelCase(ExpressService.name)
     );
-    routes.loadRoutes();
+    this.mappingApplication =
+      this.containerPrincipal.resolve<MappingApplication>(
+        toCamelCase(MappingApplication.name)
+      );
+    this.mappingApplication.initializeMappingInController(appModule);
   }
 
-  listen(callback?: () => void): void {
-    MainExpress.express.listen(this.port, callback);
+  listen(port: number, cb: () => void): void {
+    this.express.listen(port, cb);
   }
 
   use(...handlers: Array<any>): void {
-    MainExpress.express.use(handlers);
-  }
-
-  getPort(): number {
-    return this.port;
-  }
-
-  setPort(port: number): void {
-    this.port = port;
-  }
-
-  setPrefix(prefix: string): void {
-    this.prefix = prefix;
-  }
-
-  getPrefix(): string {
-    return this.prefix;
-  }
-
-  setVersion(version: string): void {
-    this.version = version;
-  }
-
-  getVersion(): string {
-    return this.version;
+    this.express.use(handlers);
   }
 }

@@ -1,30 +1,39 @@
 import { Get } from "../decorators/get.decorator";
 import { Controller } from "../decorators/controller.decorator";
 import { Body } from "../decorators/body.decorator";
-import { Post } from "../decorators/post.decorator";
-import { IsArray, IsString, MinLength } from "class-validator";
-import { BadRequestException } from "../express/errors/badRequest";
-import { Auth } from "../decorators/auth.decorator";
+import { IsNumber } from "class-validator";
+
+import { Exclude } from "class-transformer";
+import { ExampleService } from "../services/example.service";
 
 export class Testing {
-  @IsString()
-  @IsArray()
-  @MinLength(123)
-  a!: number;
+  @IsNumber()
+  // @Exclude()
+  testing!: number;
+}
+
+export class Testing2 {
+  @IsNumber()
+  @Exclude()
+  testing!: number;
+
+  constructor(partial: Partial<Testing2>) {
+    Object.assign(this, partial);
+  }
 }
 
 @Controller("aa")
 export class HelloWorld {
+  // private _s: ExampleService;
+  constructor(private readonly exampleService: ExampleService) {}
   @Get("hello1")
-  @Auth({ roles: ["USER"] })
-  public hello(@Body() value: any) {
-    // console.log("Body >> ", value);
-    throw new BadRequestException("ERROR ");
-    return { hello: "aaa" };
+  async hello(@Body() value: Testing): Promise<any> {
+    return { testing: 12313 };
   }
 
-  @Post("hello2")
+  @Get("hello2")
   public hello22() {
+    this.exampleService.getNumber();
     return "hello pa";
   }
 }

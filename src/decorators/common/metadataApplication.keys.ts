@@ -1,7 +1,10 @@
 const defaultString = "Application";
 
 export const enum MetadataKeysApplication {
-  GET_ALL_CONTROLLERS = `${defaultString}:controllers`,
+  MODULE = `${defaultString}:module`,
   MIDDLEWARES = `${defaultString}:middlewares`,
   CATCH = `${defaultString}:catch`,
+  CONTROLLERS = `${defaultString}:controllers`,
+  PROVIDERS = `${defaultString}:providers`,
+  ROUTES = `${defaultString}:routes`,
 }

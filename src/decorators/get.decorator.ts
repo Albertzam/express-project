@@ -11,7 +11,11 @@ export const Get = (route: string) => {
     const routes: Array<unknown> =
       Reflect.getMetadata(MetadataKeysMethods.GET, controller) || [];
 
-    routes.push({ method: MethodsHttp.GET, route, handler: propertyKey });
+    routes.push({
+      method: MethodsHttp.GET,
+      route,
+      handler: propertyKey,
+    });
     Reflect.defineMetadata(MetadataKeysMethods.GET, routes, controller);
   };
 };

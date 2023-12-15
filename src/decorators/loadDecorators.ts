@@ -2,22 +2,17 @@ import { Application } from "express";
 import { ControllerType } from "./types/controller.type";
 import { ClassConstructor } from "class-transformer";
 import { RouteTypes } from "./types/routes.type";
-import {
-  MetadataKeysMethods,
-  MetadataKeysParameters,
-  MetadataKeysRequests,
-} from "./common";
+import { MetadataKeysMethods, MetadataKeysParameters } from "./common";
 import logger from "../logger";
+import { MetadataKeysApplication } from "./common/metadataApplication.keys";
 
 export const RegisterRoutes = <T = any>(app: Application) => {
   return function (target: ClassConstructor<T>) {
     const routes = Reflect.getMetadata(MetadataKeysMethods.GET, target) || [];
     const routeController = Reflect.getMetadata(
-      MetadataKeysRequests.CONTROLLERS,
+      MetadataKeysApplication.CONTROLLERS,
       target
     );
-
-    console.log(routeController);
 
     const pathController = getPathController(routeController);
 
