@@ -7,4 +7,5 @@ export const enum MetadataKeysApplication {
   CONTROLLERS = `${defaultString}:controllers`,
   PROVIDERS = `${defaultString}:providers`,
   ROUTES = `${defaultString}:routes`,
+  USE_MIDDLEWARE = `${defaultString}:useMiddleware`,
 }

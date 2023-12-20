@@ -31,6 +31,7 @@ export class ContainerModule {
   ): void {
     dependencies.forEach((anyClass) => {
       const options = this.getConfigsProviders(anyClass, metadataKey);
+
       this.container.register({
         [options.name]: asClass(anyClass).setLifetime(options.scope),
       });
@@ -55,10 +56,14 @@ export class ContainerModule {
 
   public resolve<T extends { [key: string]: any }>(dependencyName: string): T {
     const anyInstance: T = this.container.resolve(toCamelCase(dependencyName));
-
+    // console.log(this.container.registrations);
     if (!anyInstance)
       throw new Error(`Dependency ${dependencyName} not found in modules`);
 
     return anyInstance;
+  }
+
+  public printTotalDependencies(): void {
+    console.log(this.container.registrations);
   }
 }

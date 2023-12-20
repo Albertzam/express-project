@@ -4,9 +4,10 @@ import { Module } from "./decorators/getAllRoutes";
 import { ExampleService } from "./services/example.service";
 import { Service } from "./services/inject.service";
 import { ExampleSingleton } from "./services/single.service";
+import { UserService } from "./services/user.service";
 
 @Module({
-  controllers: [HelloWorld, HelloWorld2],
-  providers: [ExampleService, Service, ExampleSingleton],
+  controllers: [HelloWorld],
+  providers: [ExampleService, Service, ExampleSingleton, UserService],
 })
 export class GetControllers {}

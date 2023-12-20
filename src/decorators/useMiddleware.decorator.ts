@@ -10,15 +10,11 @@ export const UseMiddleware = (
     _: PropertyDescriptor
   ) => {
     const controller = target.constructor;
-    const mid: Array<unknown> =
-      Reflect.getMetadata(MetadataKeysApplication.MIDDLEWARES, controller) ||
-      [];
-
-    mid.push({ middlewares, handler: propertyKey });
     Reflect.defineMetadata(
-      MetadataKeysApplication.MIDDLEWARES,
-      mid,
-      controller
+      MetadataKeysApplication.USE_MIDDLEWARE,
+      middlewares,
+      controller,
+      propertyKey
     );
   };
 };

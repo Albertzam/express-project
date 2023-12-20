@@ -1,12 +1,15 @@
 import { Middleware } from "../decorators/middleware.decorator";
 import { Request, Response, NextFunction } from "express";
-import { IMiddlewareExpress } from "../express/common/middlewares.express";
+import { IMiddlewareExpress } from "../express/common/interfaces/middleware.interface";
+import { UserService } from "../services/user.service";
+import { BadRequestException } from "../express/errors/badRequest";
 
 @Middleware()
 export class AuthMiddleware implements IMiddlewareExpress {
-  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
-    console.log("entry middleware");
+  constructor(private readonly userService: UserService) {}
 
-    next();
+  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
+    console.log(await this.userService.getUser());
+    next(new BadRequestException("unauthorized"));
   }
 }

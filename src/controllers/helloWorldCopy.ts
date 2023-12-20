@@ -5,14 +5,13 @@ import { Post } from "../decorators/post.decorator";
 
 @Controller("aa")
 export class HelloWorld2 {
-  @Get("hello3")
-  public hello(@Body() value: string) {
-    console.log("Body >> ", value);
-    return "a";
-  }
-
-  @Post("hello4")
-  public hello22() {
-    return "hello pa";
-  }
+  // @Get("hello3")
+  // public hello(@Body() value: string) {
+  //   console.log("Body >> ", value);
+  //   return "a";
+  // }
+  // @Post("hello4")
+  // public hello22() {
+  //   return "hello pa";
+  // }
 }
