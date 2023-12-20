@@ -3,6 +3,7 @@ import { ClassConstructor } from "class-transformer";
 import { ErrorMessagesApp } from "../errors/errorsApplication";
 import { getContainer } from "./singleton/container.singleton";
 import { toCamelCase } from "../../decorators/common/toCamelCase";
+import { IAnyClass } from "../common";
 
 export class ContainerModule {
   private container: AwilixContainer;
@@ -32,7 +33,9 @@ export class ContainerModule {
     dependencies.forEach((anyClass) => {
       const options = this.getConfigsProviders(anyClass, metadataKey);
       this.container.register({
-        [options.name]: asClass(anyClass).setLifetime(options.scope),
+        [toCamelCase(options.name)]: asClass(anyClass).setLifetime(
+          options.scope
+        ),
       });
     });
   }
@@ -53,12 +56,16 @@ export class ContainerModule {
     });
   }
 
-  public resolve<T extends { [key: string]: any }>(dependencyName: string): T {
+  public resolve<T = IAnyClass>(dependencyName: string): T {
     const anyInstance: T = this.container.resolve(toCamelCase(dependencyName));
-
+    // console.log(this.container.registrations);
     if (!anyInstance)
       throw new Error(`Dependency ${dependencyName} not found in modules`);
 
     return anyInstance;
+  }
+
+  public printTotalDependencies(): void {
+    console.log(this.container.registrations);
   }
 }
