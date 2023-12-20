@@ -95,7 +95,6 @@ export class MappingApplication {
                 }
               }
             );
-
           this.loggerExpress.log(
             "RouterExplorer",
             `Mapped Route /${pathController}/${path}`,

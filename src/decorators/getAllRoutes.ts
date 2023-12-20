@@ -7,7 +7,7 @@ export const Module = (options: {
   imports?: Array<any>;
 }): ClassDecorator => {
   return (target: Function) => {
-    if (options.imports) console.log("OPTIONS >> ", options.imports);
+    if (options.imports) console.log("OPTIONS >> ", options.imports); // Future functionality
     Reflect.defineMetadata(MetadataKeysApplication.MODULE, options, target);
   };
 };

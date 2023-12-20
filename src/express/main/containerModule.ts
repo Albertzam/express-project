@@ -31,7 +31,6 @@ export class ContainerModule {
   ): void {
     dependencies.forEach((anyClass) => {
       const options = this.getConfigsProviders(anyClass, metadataKey);
-
       this.container.register({
         [options.name]: asClass(anyClass).setLifetime(options.scope),
       });
