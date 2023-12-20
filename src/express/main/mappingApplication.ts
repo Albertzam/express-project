@@ -83,7 +83,7 @@ export class MappingApplication {
               async (req: Request, res: Response) => {
                 const args = getDecoratorsRequest(controller, handler, req);
 
-                const instance = this.container.resolve<typeof controller>(
+                const instance = this.container.resolve(
                   (configController as ControllerOption).name as string
                 );
 
@@ -152,9 +152,7 @@ export class MappingApplication {
     middlewares: Array<IAnyClass>
   ): Array<(req: Request, res: Response, next: NextFunction) => Promise<void>> {
     return middlewares.map((middleware) => {
-      const instance = this.container.resolve<typeof middleware>(
-        middleware.name
-      );
+      const instance = this.container.resolve(middleware.name);
 
       if (!instance["use"])
         throw new Error(
